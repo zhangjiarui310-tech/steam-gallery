@@ -1,0 +1,5 @@
+{
+  "name": "Steam Gallery",
+  "description": "A personal game showcase integrating Steam data with a 3D virtual gallery.",
+  "requestFramePermissions": []
+}
