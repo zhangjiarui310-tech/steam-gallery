@@ -9,9 +9,19 @@ export async function GET(request: Request) {
   }
 
   try {
-    const response = await fetch(imageUrl);
+    let response = await fetch(imageUrl);
+    
+    // If the original image fails (e.g., 404 for some Steam games), fetch a placeholder
     if (!response.ok) {
-      throw new Error(`Failed to fetch image: ${response.statusText}`);
+      console.warn(`Failed to fetch original image (${response.status}), using placeholder for: ${imageUrl}`);
+      // Extract app ID from URL if possible to use as a seed
+      const match = imageUrl.match(/\/apps\/(\d+)\//);
+      const seed = match ? match[1] : 'steam';
+      response = await fetch(`https://picsum.photos/seed/${seed}/460/215`);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch placeholder image: ${response.statusText}`);
+      }
     }
     
     const buffer = await response.arrayBuffer();
