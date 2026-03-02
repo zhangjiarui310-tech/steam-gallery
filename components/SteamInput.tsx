@@ -27,7 +27,7 @@ export default function SteamInput({ onSearch, isLoading }: SteamInputProps) {
     >
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold tracking-tight text-white mb-4">
-          Steam 3D Showcase
+          Steam Gallery
         </h1>
         <p className="text-zinc-400">
           Enter your SteamID64 to generate your personal 3D game gallery.
@@ -65,7 +65,6 @@ export default function SteamInput({ onSearch, isLoading }: SteamInputProps) {
 
       <div className="mt-8 p-4 bg-zinc-900/30 border border-zinc-800/50 rounded-xl text-sm text-zinc-500">
         <p>Don&apos;t know your SteamID64? You can find it using sites like steamid.io</p>
-        <p className="mt-2 text-xs text-zinc-600">Note: You need to set STEAM_API_KEY in the AI Studio Secrets panel for this to work.</p>
       </div>
     </motion.div>
   );

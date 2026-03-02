@@ -17,9 +17,21 @@ export async function GET(request: Request) {
     const response = await fetch(
       `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${steamId}&format=json&include_appinfo=true`
     );
-    const data = await response.json();
+    
+    if (!response.ok) {
+      return NextResponse.json({ error: `Steam API responded with status: ${response.status}` }, { status: response.status });
+    }
 
-    if (!data.response || !data.response.games) {
+    const text = await response.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      console.error('Invalid JSON from Steam API:', text.substring(0, 100));
+      return NextResponse.json({ error: 'Invalid response from Steam API' }, { status: 500 });
+    }
+
+    if (!data.response || !data.response.games || data.response.games.length === 0) {
       return NextResponse.json({ error: 'No games found or profile is private' }, { status: 404 });
     }
 

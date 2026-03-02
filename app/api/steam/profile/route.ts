@@ -17,7 +17,19 @@ export async function GET(request: Request) {
     const response = await fetch(
       `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${steamId}`
     );
-    const data = await response.json();
+    
+    if (!response.ok) {
+      return NextResponse.json({ error: `Steam API responded with status: ${response.status}` }, { status: response.status });
+    }
+
+    const text = await response.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      console.error('Invalid JSON from Steam API:', text.substring(0, 100));
+      return NextResponse.json({ error: 'Invalid response from Steam API' }, { status: 500 });
+    }
 
     if (!data.response || !data.response.players || data.response.players.length === 0) {
       return NextResponse.json({ error: 'Player not found' }, { status: 404 });
