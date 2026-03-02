@@ -13,6 +13,7 @@ interface Game {
 
 interface Gallery3DProps {
   games: Game[];
+  profile?: any;
 }
 
 class ErrorBoundary extends Component<{ children: ReactNode; fallback: ReactNode }, { hasError: boolean }> {
@@ -35,9 +36,9 @@ function FirstPersonControls({ corridorLength }: { corridorLength: number }) {
 
   useEffect(() => {
     // Set initial camera position
-    camera.position.set(0, 0, 5);
+    camera.position.set(0, 0, 4);
     if (controlsRef.current) {
-      controlsRef.current.target.set(0, 0, 4.9);
+      controlsRef.current.target.set(0, 0, 3.9);
     }
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -69,8 +70,8 @@ function FirstPersonControls({ corridorLength }: { corridorLength: number }) {
       let newZ = camera.position.z + zMovement;
       
       // Clamp to corridor bounds to prevent clipping
-      const minZ = -corridorLength + 8;
-      const maxZ = 5;
+      const minZ = -corridorLength + 9;
+      const maxZ = 5.5;
       newZ = THREE.MathUtils.clamp(newZ, minZ, maxZ);
 
       const deltaZ = newZ - camera.position.z;
@@ -164,10 +165,12 @@ function GameFrame({ game, position, rotation }: { game: Game; position: [number
   );
 }
 
-function Gallery({ games, corridorLength }: { games: Game[], corridorLength: number }) {
+function Gallery({ games, corridorLength, profile }: { games: Game[], corridorLength: number, profile?: any }) {
   const topGames = games.slice(0, 30);
   const spacing = 6;
-  const zCenter = -corridorLength / 2 + 5;
+  const zCenter = -corridorLength / 2 + 6;
+  
+  const avatarUrl = profile?.avatarfull ? `/api/image-proxy?url=${encodeURIComponent(profile.avatarfull)}` : '';
 
   return (
     <group position={[0, 0, 0]}>
@@ -218,8 +221,42 @@ function Gallery({ games, corridorLength }: { games: Game[], corridorLength: num
         <meshBasicMaterial color="#4f46e5" />
       </mesh>
 
+      {/* Start Wall (Behind Camera) */}
+      <mesh position={[0, 2, 6]} receiveShadow>
+        <boxGeometry args={[12, 8, 0.2]} />
+        <meshStandardMaterial color="#09090b" roughness={0.8} />
+      </mesh>
+
+      {/* User Profile on Start Wall */}
+      {avatarUrl && (
+        <group position={[0, 2.5, 5.89]} rotation={[0, Math.PI, 0]}>
+          <mesh castShadow receiveShadow>
+            <planeGeometry args={[2.2, 2.2]} />
+            <meshStandardMaterial color="#1e1b4b" />
+          </mesh>
+          <mesh position={[0, 0, 0.01]}>
+            <ErrorBoundary fallback={<meshBasicMaterial color="#3f3f46" />}>
+              <Suspense fallback={<meshBasicMaterial color="#27272a" />}>
+                <DreiImage url={avatarUrl} scale={[2, 2]} transparent opacity={1} />
+              </Suspense>
+            </ErrorBoundary>
+          </mesh>
+          <Text
+            position={[0, -1.5, 0]}
+            fontSize={0.4}
+            color="#ffffff"
+            anchorX="center"
+            anchorY="middle"
+            outlineWidth={0.02}
+            outlineColor="#000000"
+          >
+            {profile?.personaname || 'Steam User'}
+          </Text>
+        </group>
+      )}
+
       {/* End Wall */}
-      <mesh position={[0, 2, -corridorLength + 5]} receiveShadow>
+      <mesh position={[0, 2, -corridorLength + 6]} receiveShadow>
         <boxGeometry args={[12, 8, 0.2]} />
         <meshStandardMaterial color="#09090b" roughness={0.8} />
       </mesh>
@@ -244,7 +281,7 @@ function Gallery({ games, corridorLength }: { games: Game[], corridorLength: num
   );
 }
 
-export default function Gallery3D({ games }: Gallery3DProps) {
+export default function Gallery3D({ games, profile }: Gallery3DProps) {
   if (!games || games.length === 0) {
     return (
       <div className="text-center py-20 text-zinc-500">
@@ -281,9 +318,7 @@ export default function Gallery3D({ games }: Gallery3DProps) {
         <pointLight position={[0, 2, 0]} intensity={2} color="#4f46e5" distance={20} />
 
         <Suspense fallback={null}>
-          <Environment preset="city" />
-          <Stars radius={50} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-          <Gallery games={games} corridorLength={corridorLength} />
+          <Gallery games={games} corridorLength={corridorLength} profile={profile} />
         </Suspense>
 
         <FirstPersonControls corridorLength={corridorLength} />

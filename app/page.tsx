@@ -110,7 +110,7 @@ export default function Home() {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <Gallery3D games={games} />
+                    <Gallery3D games={games} profile={profile} />
                   </motion.div>
                 )}
               </AnimatePresence>
