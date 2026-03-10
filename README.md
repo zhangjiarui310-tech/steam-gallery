@@ -15,6 +15,7 @@ View your app in AI Studio: https://ai.studio/apps/bbc8c973-e2d0-4548-89f2-bcd2b
 
 1. Install dependencies:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+2. Set the `STEAM_API_KEY` in [.env.local](.env.local) to your Steam API key
+   Get it from https://steamcommunity.com/dev/apikey
 3. Run the app:
    `npm run dev`
