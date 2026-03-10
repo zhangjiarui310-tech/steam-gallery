@@ -1,0 +1,46 @@
+{
+  "common": {
+    "appName": "Steam Gallery",
+    "description": "A personal game showcase integrating Steam data with a 3D virtual gallery.",
+    "language": "Language",
+    "english": "English",
+    "chinese": "中文",
+    "welcome": "Welcome to Steam Gallery",
+    "enterSteamId": "Enter your SteamID64 to generate your personal 3D game gallery. Make sure your game details are set to public.",
+    "submit": "Generate",
+    "loading": "Loading",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "online": "Online",
+    "offline": "Offline",
+    "changeId": "Change ID",
+    "flatShowcase": "Flat Showcase",
+    "gallery3d": "3D Gallery",
+    "noGamesFound": "No games found. Make sure your game details are set to public.",
+    "steamIdHelp": "Don't know your SteamID64? You can find it using sites like steamid.io",
+    "controls": "Controls",
+    "moveForwardBackward": "to move forward and backward",
+    "strafeLeftRight": "to strafe left and right",
+    "run": "to run",
+    "lockMouse": "to lock mouse and look around",
+    "unlockMouse": "to unlock mouse",
+    "viewAchievements": "View Achievements"
+  },
+  "achievements": {
+    "title": "Achievements",
+    "unlocked": "Unlocked",
+    "locked": "Locked",
+    "progress": "Progress"
+  },
+  "games": {
+    "title": "Games",
+    "noGames": "No games found",
+    "recentGames": "Recent Games"
+  },
+  "profile": {
+    "title": "Profile",
+    "level": "Level",
+    "gamesCount": "Games Count",
+    "achievementsCount": "Achievements Count"
+  }
+}

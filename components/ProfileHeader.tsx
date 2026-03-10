@@ -1,8 +1,10 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'motion/react';
 import { LogOut, Grid, Box } from 'lucide-react';
+import { getPreferredLocale } from '../lib/i18n';
 
 interface ProfileHeaderProps {
   profile: any;
@@ -13,6 +15,27 @@ interface ProfileHeaderProps {
 
 export default function ProfileHeader({ profile, viewMode, setViewMode, onLogout }: ProfileHeaderProps) {
   if (!profile) return null;
+
+  const [dictionary, setDictionary] = useState<any>({
+    common: {
+      online: 'Online',
+      offline: 'Offline',
+      changeId: 'Change ID'
+    },
+    games: {
+      title: 'Games',
+      recentGames: 'Recent Games'
+    }
+  });
+
+  useEffect(() => {
+    const loadDictionary = async () => {
+      const locale = getPreferredLocale();
+      const dict = await import(`../app/locales/${locale}.json`);
+      setDictionary(dict.default);
+    };
+    loadDictionary();
+  }, []);
 
   return (
     <motion.header 
@@ -34,7 +57,7 @@ export default function ProfileHeader({ profile, viewMode, setViewMode, onLogout
           <h2 className="text-2xl font-bold text-white tracking-tight">{profile.personaname}</h2>
           <div className="flex items-center gap-2 text-sm text-zinc-400 mt-1">
             <span className={`w-2 h-2 rounded-full ${profile.personastate === 1 ? 'bg-emerald-500' : 'bg-zinc-500'}`} />
-            {profile.personastate === 1 ? 'Online' : 'Offline'}
+            {profile.personastate === 1 ? dictionary.common.online : dictionary.common.offline}
           </div>
         </div>
       </div>
@@ -49,7 +72,7 @@ export default function ProfileHeader({ profile, viewMode, setViewMode, onLogout
           }`}
         >
           <Grid className="w-4 h-4" />
-          Flat Showcase
+          {dictionary.common.flatShowcase}
         </button>
         <button
           onClick={() => setViewMode('3d')}
@@ -60,7 +83,7 @@ export default function ProfileHeader({ profile, viewMode, setViewMode, onLogout
           }`}
         >
           <Box className="w-4 h-4" />
-          3D Gallery
+          {dictionary.common.gallery3d}
         </button>
       </div>
 
@@ -69,7 +92,7 @@ export default function ProfileHeader({ profile, viewMode, setViewMode, onLogout
         className="flex items-center gap-2 px-4 py-2 text-sm text-zinc-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors"
       >
         <LogOut className="w-4 h-4" />
-        Change ID
+        {dictionary.common.changeId}
       </button>
     </motion.header>
   );

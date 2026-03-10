@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const steamId = searchParams.get('steamId');
+  const appId = searchParams.get('appId');
   let language = searchParams.get('language') || 'en';
   // 转换为 Steam API 支持的语言代码
   if (language === 'zh') {
@@ -10,8 +11,8 @@ export async function GET(request: Request) {
   }
   const apiKey = process.env.STEAM_API_KEY;
 
-  if (!steamId) {
-    return NextResponse.json({ error: 'Steam ID is required' }, { status: 400 });
+  if (!steamId || !appId) {
+    return NextResponse.json({ error: 'Steam ID and App ID are required' }, { status: 400 });
   }
 
   if (!apiKey) {
@@ -20,7 +21,7 @@ export async function GET(request: Request) {
 
   try {
     const response = await fetch(
-      `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${steamId}&l=${language}`
+      `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?key=${apiKey}&steamid=${steamId}&appid=${appId}&l=${language}`
     );
     
     if (!response.ok) {
@@ -36,13 +37,13 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Invalid response from Steam API' }, { status: 500 });
     }
 
-    if (!data.response || !data.response.players || data.response.players.length === 0) {
-      return NextResponse.json({ error: 'Player not found' }, { status: 404 });
+    if (!data.playerstats) {
+      return NextResponse.json({ error: 'No achievements data found' }, { status: 404 });
     }
 
-    return NextResponse.json(data.response.players[0]);
+    return NextResponse.json(data.playerstats);
   } catch (error) {
-    console.error('Error fetching Steam profile:', error);
-    return NextResponse.json({ error: 'Failed to fetch Steam profile' }, { status: 500 });
+    console.error('Error fetching Steam achievements:', error);
+    return NextResponse.json({ error: 'Failed to fetch Steam achievements' }, { status: 500 });
   }
 }

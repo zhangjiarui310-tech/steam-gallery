@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Search, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
+import { getPreferredLocale } from '../lib/i18n';
 
 interface SteamInputProps {
   onSearch: (steamId: string) => void;
@@ -11,6 +12,26 @@ interface SteamInputProps {
 
 export default function SteamInput({ onSearch, isLoading }: SteamInputProps) {
   const [steamId, setSteamId] = useState('');
+  const [dictionary, setDictionary] = useState<any>({
+    common: {
+      appName: 'Steam Gallery',
+      enterSteamId: 'Enter your SteamID64 to generate your personal 3D game gallery. Make sure your game details are set to public.',
+      submit: 'Generate',
+      loading: 'Loading',
+      error: 'An error occurred',
+      retry: 'Retry',
+      steamIdHelp: "Don't know your SteamID64? You can find it using sites like steamid.io"
+    }
+  });
+
+  useEffect(() => {
+    const loadDictionary = async () => {
+      const locale = getPreferredLocale();
+      const dict = await import(`../app/locales/${locale}.json`);
+      setDictionary(dict.default);
+    };
+    loadDictionary();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,11 +48,10 @@ export default function SteamInput({ onSearch, isLoading }: SteamInputProps) {
     >
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold tracking-tight text-white mb-4">
-          Steam Gallery
+          {dictionary.common.appName}
         </h1>
         <p className="text-zinc-400">
-          Enter your SteamID64 to generate your personal 3D game gallery.
-          Make sure your game details are set to public.
+          {dictionary.common.enterSteamId}
         </p>
       </div>
 
@@ -54,17 +74,17 @@ export default function SteamInput({ onSearch, isLoading }: SteamInputProps) {
             {isLoading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                Loading
+                {dictionary.common.loading}
               </>
             ) : (
-              'Generate'
+              dictionary.common.submit
             )}
           </button>
         </div>
       </form>
 
       <div className="mt-8 p-4 bg-zinc-900/30 border border-zinc-800/50 rounded-xl text-sm text-zinc-500">
-        <p>Don&apos;t know your SteamID64? You can find it using sites like steamid.io</p>
+        <p>{dictionary.common.steamIdHelp}</p>
       </div>
     </motion.div>
   );

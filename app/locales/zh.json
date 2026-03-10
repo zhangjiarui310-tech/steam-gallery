@@ -1,0 +1,46 @@
+{
+  "common": {
+    "appName": "Steam 游戏画廊",
+    "description": "个人游戏展示，集成 Steam 数据与 3D 虚拟画廊。",
+    "language": "语言",
+    "english": "English",
+    "chinese": "中文",
+    "welcome": "欢迎来到 Steam 游戏画廊",
+    "enterSteamId": "输入您的 SteamID64 以生成个人 3D 游戏画廊。请确保您的游戏详情设置为公开。",
+    "submit": "生成",
+    "loading": "加载中",
+    "error": "发生错误",
+    "retry": "重试",
+    "online": "在线",
+    "offline": "离线",
+    "changeId": "更换 ID",
+    "flatShowcase": "平面展示",
+    "gallery3d": "3D 画廊",
+    "noGamesFound": "未找到游戏。请确保您的游戏详情设置为公开。",
+    "steamIdHelp": "不知道您的 SteamID64？您可以使用 steamid.io 等网站查找。",
+    "controls": "控制",
+    "moveForwardBackward": "向前和向后移动",
+    "strafeLeftRight": "向左和向右移动",
+    "run": "奔跑",
+    "lockMouse": "锁定鼠标并环顾四周",
+    "unlockMouse": "解锁鼠标",
+    "viewAchievements": "查看成就"
+  },
+  "achievements": {
+    "title": "成就",
+    "unlocked": "已解锁",
+    "locked": "未解锁",
+    "progress": "进度"
+  },
+  "games": {
+    "title": "游戏",
+    "noGames": "未找到游戏",
+    "recentGames": "最近游戏"
+  },
+  "profile": {
+    "title": "个人资料",
+    "level": "等级",
+    "gamesCount": "游戏数量",
+    "achievementsCount": "成就数量"
+  }
+}
