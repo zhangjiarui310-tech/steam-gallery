@@ -2,10 +2,6 @@
 
 一个现代化的 Steam 游戏库可视化展示应用，支持 2D 平面和 3D 立体两种展示模式，让你以全新的方式浏览你的 Steam 游戏收藏。
 
-<div align="center">
-<img width="1200" height="475" alt="Steam Gallery Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
-
 ## 🚀 功能特性
 
 - **双模式展示**：支持 2D 平面网格和 3D 立体画廊两种浏览模式
