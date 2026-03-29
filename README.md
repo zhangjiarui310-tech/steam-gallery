@@ -108,20 +108,6 @@ steamgallery/
 3. 使用顶部的视图切换按钮在 2D 和 3D 模式之间切换
 4. 在 3D 模式下，你可以使用鼠标拖动旋转视角，滚轮缩放
 
-## 🎨 界面预览
-
-### 登录界面
-
-![Login Interface](https://github.com/user-attachments/assets/12345678-1234-1234-1234-1234567890ab)
-
-### 2D 展示模式
-
-![2D Showcase](https://github.com/user-attachments/assets/12345678-1234-1234-1234-1234567890ab)
-
-### 3D 展示模式
-
-![3D Gallery](https://github.com/user-attachments/assets/12345678-1234-1234-1234-1234567890ab)
-
 ## 🔧 开发指南
 
 ### 代码风格
